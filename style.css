@@ -1,3 +1,16 @@
 * {
     box-sizing: border-box;
 }
+
+body {
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+    margin-top: 10%;
+    font-size: 10px;
+    /* background-color: black; */
+}
+
+.keys {
+    display: grid;
+}
