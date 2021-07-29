@@ -99,11 +99,6 @@ function equals() {
         console.error(error);
         display.textContent = 'Error!';
         errorOccured = true;
-        console.log(errorOccured);
-        // // Reset back to default after 1 second
-        // setTimeout(function () {
-        //     display.textContent = '0';
-        // }, 1000);
     }  
 }
 
