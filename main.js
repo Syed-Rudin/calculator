@@ -31,11 +31,9 @@ function addition() {
     if (ans) {
         display.textContent = `${ans}+`;
         ans = false;
-    } else if (errorOccured) {
-        display.textContent = '+';
-        errorOccured = false;
-    }
-    else {
+    } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
+        return;
+    } else {
         display.textContent += '+';
     }
 };
@@ -44,9 +42,8 @@ function subtraction() {
     if (ans) {
         display.textContent = `${ans}-`;
         ans = false;
-    } else if (errorOccured) {
-        display.textContent = '-';
-        errorOccured = false;
+    } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
+        return;
     } else {
         display.textContent += '-';
     }
@@ -56,10 +53,9 @@ function multiplication() {
     if (ans) {
         display.textContent = `${ans}x`;
         ans = false;
-    } else if (errorOccured) {
-        display.textContent = 'x';
-        errorOccured = false;
-    } else {
+    } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
+        return;
+    }else {
         display.textContent += 'x';
     }
 };
@@ -68,10 +64,10 @@ function division() {
     if (ans) {
         display.textContent = `${ans}÷`;
         ans = false;
-    } else if  (errorOccured) {
-        display.textContent = '÷';
-        errorOccured = false;
-    } else {
+    } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
+        return;
+    }
+    else {
         display.textContent += '÷';
     }
 };
@@ -80,9 +76,8 @@ function decimal() {
     if (ans) {
         display.textContent = '.';
         ans = false;
-    } else if (errorOccured) {
-        display.textContent = '.';
-        errorOccured = false;
+    } else if (!Number(display.textContent.slice(-1)) || (display.textContent.slice(-1) === '.') || (errorOccured)) {
+        return;
     } else {
         display.textContent += '.'
     }
@@ -103,6 +98,10 @@ function equals() {
 }
 
 // TODO
+// 1. Count from right to left
+// 2. Stop when it reaches the end of a number
+// 3. Add brackets around it
+
 function signChange() {
     
 }
@@ -115,6 +114,8 @@ multiplyBtn.addEventListener('click', multiplication);
 divideBtn.addEventListener('click', division);
 decimalBtn.addEventListener('click', decimal);
 equalsBtn.addEventListener('click', equals);
+
+
 
 // Allow AC button to clear display
 AC.addEventListener('click', function() {
