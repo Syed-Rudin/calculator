@@ -1,5 +1,6 @@
 # calculator
 Calculator app made in Javascript
+Live website: https://syed-rudin.github.io/calculator/
 
 The calculator will start off with some basic functions:
 1. Numbers 0-9
