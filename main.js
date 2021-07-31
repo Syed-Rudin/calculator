@@ -37,7 +37,7 @@ function addition() {
         display.textContent += '+';
     }
 };
-
+ 
 function subtraction() {
     if (ans) {
         display.textContent = `${ans}-`;
