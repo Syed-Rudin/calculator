@@ -17,10 +17,12 @@ keys.addEventListener('click', function(e) {
     if ((Number(e.target.textContent)) || (Number(e.target.textContent) === 0)) {
         if (display.textContent === '0' || ans || errorOccured) {
             display.textContent = e.target.textContent;
+            equation = e.target.textContent
             ans = false;
             errorOccured = false;
         } else {
             display.textContent += e.target.textContent;
+            equation += e.target.textContent
         }
     }
 });
@@ -30,45 +32,53 @@ keys.addEventListener('click', function(e) {
 function addition() {
     if (ans) {
         display.textContent = `${ans}+`;
+        equation = `${ans} + `;
         ans = false;
     } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
         return;
     } else {
         display.textContent += '+';
+        equation += ' + ';
     }
 };
  
 function subtraction() {
     if (ans) {
         display.textContent = `${ans}-`;
+        equation = `${ans} - `;
         ans = false;
     } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
         return;
     } else {
         display.textContent += '-';
+        equation += ' - ';
     }
 };
 
 function multiplication() {
     if (ans) {
         display.textContent = `${ans}x`;
+        equation = `${ans} * `;
         ans = false;
     } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
         return;
     }else {
         display.textContent += 'x';
+        equation += ' * ';
     }
 };
 
 function division() {
     if (ans) {
         display.textContent = `${ans}÷`;
+        equation = `${ans} / `;
         ans = false;
     } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
         return;
     }
     else {
         display.textContent += '÷';
+        equation += ' / ';
     }
 };
 
@@ -85,9 +95,7 @@ function decimal() {
 
 function equals() {
     try {
-        display.textContent = display.textContent.replace(/÷/g, "/");
-        display.textContent = display.textContent.replace(/x/g, "*");
-        display.textContent = eval(display.textContent);
+        display.textContent = eval(equation);
         ans = display.textContent;
     } catch(error) {
         // If error, log the error and display an error 
@@ -122,4 +130,5 @@ AC.addEventListener('click', function() {
     display.textContent = '0';
     ans = false;
     errorOccured = false;
+    equation = '';
 });
