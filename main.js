@@ -84,12 +84,18 @@ function division() {
 
 function decimal() {
     if (ans) {
-        display.textContent = '.';
+        display.textContent = '0.';
+        equation = '0.';
         ans = false;
-    } else if (!Number(display.textContent.slice(-1)) || (display.textContent.slice(-1) === '.') || (errorOccured)) {
+    } else if (display.textContent.slice(-1) === '0') {
+        display.textContent += '.';
+        equation += '.';
+    }
+    else if (!Number(display.textContent.slice(-1)) || (display.textContent.slice(-1) === '.') || (errorOccured)) {
         return;
     } else {
         display.textContent += '.'
+        equation += '.';
     }
 }
 
@@ -102,6 +108,7 @@ function equals() {
         console.error(error);
         display.textContent = 'Error!';
         errorOccured = true;
+        equation = '0';
     }  
 }
 
