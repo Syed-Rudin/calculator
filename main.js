@@ -6,7 +6,7 @@ let subtractBtn = document.querySelector('[data-action=subtract]');
 let multiplyBtn = document.querySelector('[data-action=multiply]');
 let divideBtn = document.querySelector('[data-action=divide]');
 let equalsBtn = document.querySelector('[data-action=calculate]')
-let signBtn = document.querySelector('.signchange');
+let signBtn = document.querySelector('[data-action=signchange]');
 let decimalBtn = document.querySelector('[data-action=decimal]');
 let equation = '';
 let ans = false;
@@ -34,7 +34,11 @@ function addition() {
         display.textContent = `${ans}+`;
         equation = `${ans} + `;
         ans = false;
-    } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
+    } else if (display.textContent.slice(-1) === ')') {
+        display.textContent += '+';
+        equation += ' + ';
+    } 
+    else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
         return;
     } else {
         display.textContent += '+';
@@ -47,7 +51,11 @@ function subtraction() {
         display.textContent = `${ans}-`;
         equation = `${ans} - `;
         ans = false;
-    } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
+    } else if (display.textContent.slice(-1) === ')') {
+        display.textContent += '-';
+        equation += ' - ';
+    } 
+    else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
         return;
     } else {
         display.textContent += '-';
@@ -60,7 +68,11 @@ function multiplication() {
         display.textContent = `${ans}x`;
         equation = `${ans} * `;
         ans = false;
-    } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
+    } else if (display.textContent.slice(-1) === ')') {
+        display.textContent += 'x';
+        equation += ' * ';
+    } 
+    else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
         return;
     }else {
         display.textContent += 'x';
@@ -73,11 +85,15 @@ function division() {
         display.textContent = `${ans}÷`;
         equation = `${ans} / `;
         ans = false;
-    } else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
+    } else if (display.textContent.slice(-1) === ')') {
+        display.textContent += '÷';
+        equation += ' / ';
+    } 
+    else if (!Number(display.textContent.slice(-1)) || (errorOccured)) {
         return;
     }
     else {
-        display.textContent += '÷';
+        display.textContent += '';
         equation += ' / ';
     }
 };
@@ -103,6 +119,7 @@ function equals() {
     try {
         display.textContent = eval(equation);
         ans = display.textContent;
+        equation = ans;
     } catch(error) {
         // If error, log the error and display an error 
         console.error(error);
@@ -118,7 +135,33 @@ function equals() {
 // 3. Add brackets around it
 
 function signChange() {
-    
+    // let num = true;
+    // let i = 0;
+    // let lengthOfEquation = equation.length - 1
+    // while (num === true) {
+    //     if (Number(equation[lengthOfEquation - i]) || Number(equation[lengthOfEquation - i] === 0) || (equation[lengthOfEquation - i] === '.')) {
+    //         i += 1;
+    //     } else {
+    //         console.log(equation.slice(0, (lengthOfEquation - i)));
+    //         equation = equation.slice(0, (lengthOfEquation - i)) + ' -(' + equation.slice((lengthOfEquation - i) + 1) + ')';
+    //         num = false;
+    //     }
+    // }
+
+    // TODO 
+    // Malfunction when sign change in front of operator
+    ans = false;
+    let liEquation = equation.split(' ');
+    let displayEquation = equation.split(' ');
+
+    liEquation.splice(liEquation.length-1, 0, '(-');
+    liEquation.push(')');
+    equation = liEquation.join('');
+
+    displayEquation.splice(displayEquation.length-1, 0, '(-');
+    displayEquation.push(')');
+    displayEquation = displayEquation.join('');
+    display.textContent = displayEquation.replace(/[*]/g, 'x');
 }
 
 
@@ -128,6 +171,7 @@ subtractBtn.addEventListener('click', subtraction);
 multiplyBtn.addEventListener('click', multiplication);
 divideBtn.addEventListener('click', division);
 decimalBtn.addEventListener('click', decimal);
+signBtn.addEventListener('click', signChange);
 equalsBtn.addEventListener('click', equals);
 
 
