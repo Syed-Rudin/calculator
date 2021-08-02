@@ -150,6 +150,7 @@ function signChange() {
 
     // TODO 
     // Malfunction when sign change in front of operator
+    // Consider regex
     ans = false;
     let liEquation = equation.split(' ');
     let displayEquation = equation.split(' ');
