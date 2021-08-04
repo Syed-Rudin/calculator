@@ -7,8 +7,9 @@ let subtractBtn = document.querySelector('[data-action=subtract]');
 let multiplyBtn = document.querySelector('[data-action=multiply]');
 let divideBtn = document.querySelector('[data-action=divide]');
 let equalsBtn = document.querySelector('[data-action=calculate]')
-let signBtn = document.querySelector('[data-action=signchange]');
 let decimalBtn = document.querySelector('[data-action=decimal]');
+let signBtn = document.querySelector('[data-action=signchange]');
+let percentBtn = document.querySelector('[data-action=percentage]');
 
 // Variables to keep track of calculator state
 let equation = '';
@@ -44,7 +45,7 @@ function addition() {
         display.textContent = `${ans}+`;
         equation = `${ans} + `;
         ans = false;
-    } else if (display.textContent.slice(-1) === ')') {
+    } else if ((display.textContent.slice(-1) === ')') || (display.textContent.slice(-1) === '%')) {
         display.textContent += '+';
         equation += ' + ';
     } 
@@ -62,7 +63,7 @@ function subtraction() {
         display.textContent = `${ans}-`;
         equation = `${ans} - `;
         ans = false;
-    } else if (display.textContent.slice(-1) === ')') {
+    } else if ((display.textContent.slice(-1) === ')') || (display.textContent.slice(-1) === '%')) {
         display.textContent += '-';
         equation += ' - ';
     } 
@@ -80,7 +81,7 @@ function multiplication() {
         display.textContent = `${ans}x`;
         equation = `${ans} * `;
         ans = false;
-    } else if (display.textContent.slice(-1) === ')') {
+    } else if ((display.textContent.slice(-1) === ')') || (display.textContent.slice(-1) === '%')) {
         display.textContent += 'x';
         equation += ' * ';
     } 
@@ -98,7 +99,7 @@ function division() {
         display.textContent = `${ans}÷`;
         equation = `${ans} / `;
         ans = false;
-    } else if (display.textContent.slice(-1) === ')') {
+    } else if ((display.textContent.slice(-1) === ')') || (display.textContent.slice(-1) === '%')) {
         display.textContent += '÷';
         equation += ' / ';
     } 
@@ -128,34 +129,8 @@ function decimal() {
     }
 }
 
-function equals() {
-    try {
-        display.textContent = eval(equation);
-        ans = display.textContent;
-        equation = ans;
-    } catch(error) {
-        // If error, log the error and display an error 
-        console.error(error);
-        display.textContent = 'Error!';
-        errorOccured = true;
-        equation = '';
-    }  
-}
-
+// Functionality for signchange key
 function signChange() {
-    // let num = true;
-    // let i = 0;
-    // let lengthOfEquation = equation.length - 1
-    // while (num === true) {
-    //     if (Number(equation[lengthOfEquation - i]) || Number(equation[lengthOfEquation - i] === 0) || (equation[lengthOfEquation - i] === '.')) {
-    //         i += 1;
-    //     } else {
-    //         console.log(equation.slice(0, (lengthOfEquation - i)));
-    //         equation = equation.slice(0, (lengthOfEquation - i)) + ' -(' + equation.slice((lengthOfEquation - i) + 1) + ')';
-    //         num = false;
-    //     }
-    // }
-
     ans = false;
     let liEquation = equation.split(' ');
     let lastDigit = (liEquation.length-1);
@@ -185,6 +160,44 @@ function signChange() {
     display.textContent = newDisplay.replace(/[*]/g, 'x');
 }
 
+// Functionality for percentage key
+function percentage() {
+    ans = false;
+    let liEquation = equation.split(' ');
+    let lastDigit = (liEquation.length-1);
+
+    // Check if last digit is not anumber or equal to 0
+    if (!Number(liEquation[lastDigit]) || (liEquation[lastDigit] === '0')) {
+        // If true, do nothing
+        return;
+    }  
+
+    liEquation.splice(lastDigit, 0, '(')
+
+    // Add closing bracket and divide number by 100 then
+    // join back equation
+    liEquation.push('/ 100 )');
+    let newEquation = liEquation.join(' ');
+    equation = newEquation;
+
+    // Add percentage sign next to number     
+    display.textContent += '%';
+}
+
+// Functionality for equals key
+function equals() {
+    try {
+        display.textContent = Number(+eval(equation).toFixed(9));
+        ans = display.textContent;
+        equation = ans;
+    } catch(error) {
+        // If error, log the error and display an error 
+        console.error(error);
+        display.textContent = 'Error!';
+        errorOccured = true;
+        equation = '';
+    }  
+}
 
 // Add functions to appropriate buttons
 addBtn.addEventListener('click', addition);
@@ -193,9 +206,8 @@ multiplyBtn.addEventListener('click', multiplication);
 divideBtn.addEventListener('click', division);
 decimalBtn.addEventListener('click', decimal);
 signBtn.addEventListener('click', signChange);
+percentBtn.addEventListener('click', percentage);
 equalsBtn.addEventListener('click', equals);
-
-
 
 // Allow AC button to clear display and
 // reset all variables
